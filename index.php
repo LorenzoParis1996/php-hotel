@@ -3,6 +3,27 @@
 require_once __DIR__ . "/hotels.php";
 
 
+$filterHotel = $hotels;
+
+
+if(isset($_GET["parking"])) {
+    $parking = $_GET["parking"];
+
+    if ($parking == true) {
+        $parkingAvailable =[];
+        foreach($filterHotel as $hotel) {
+          if ($hotel["parking"] === true) {
+             $parkingAvailable[] = $hotel;
+          }
+        }
+
+        $filterHotel = $parkingAvailable;
+    } 
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +36,17 @@ require_once __DIR__ . "/hotels.php";
     <title>Document</title>
 </head>
 <body>
-<section class="w-50">
+
+<div class="container">
+<section>
+    <form action="./index.php" method="GET" class="p-3">
+        <input type="checkbox" name="parking" id="parking" value="true">Hotels with parking
+        <button type="submit">Filter</button>
+        <button type="submit">Reset filter</button>
+    </form>
+</section>
+
+<section>
 <table class="table">
   <thead>
     <tr>
@@ -27,7 +58,7 @@ require_once __DIR__ . "/hotels.php";
     </tr>
   </thead>
   <tbody>
-     <?php foreach($hotels as $hotel) { ?>
+     <?php foreach($filterHotel as  $hotel) { ?>
         <tr>
             <td scope="row"><?php echo $hotel["name"]?></td>
             <td scope="row"><?php echo $hotel["description"]?></td>
@@ -39,5 +70,6 @@ require_once __DIR__ . "/hotels.php";
   </tbody>
 </table>
 </section>
+</div>
 </body>
 </html>
