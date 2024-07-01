@@ -21,6 +21,24 @@ if(isset($_GET["parking"])) {
     } 
 }
 
+if(isset($_GET["vote"])) {
+    $vote = $_GET["vote"];
+
+    if ($vote >= 1 && $vote <= 5) {
+        $rating = [];
+
+        foreach($filterHotel as $hotel) {
+            if ($hotel["vote"] >= $vote) {
+                $rating[] = $hotel;
+            }
+        }
+
+        $filterHotel = $rating;
+    }
+
+    
+}
+
 
 
 
@@ -40,9 +58,13 @@ if(isset($_GET["parking"])) {
 <div class="container">
 <section>
     <form action="./index.php" method="GET" class="p-3">
+        <div>
         <input type="checkbox" name="parking" id="parking" value="true">Hotels with parking
+        <input type="number" name="vote" id="vote" min="1" max="5">Rating
         <button type="submit">Filter</button>
         <button type="submit">Reset filter</button>
+        </div>
+        
     </form>
 </section>
 
